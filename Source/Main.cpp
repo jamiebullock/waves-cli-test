@@ -55,9 +55,9 @@ void testAudioPlugins(const String& pathToBundle, const String& pluginName, int 
       
       const auto params = instance->getParameterTree().getParameters(true);
       
-      for ( int i = 0; i < params.size(); ++i )
+      for ( int j = 0; j < params.size(); ++j )
       {
-         auto *param = params[i];
+         auto *param = params[j];
          auto value = param->getValue();
          
          if (verbose)
