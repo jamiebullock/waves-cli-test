@@ -17,9 +17,17 @@ void testAudioPlugins(const String& pathToBundle, const String& pluginName, int 
    
    KnownPluginList list;
    OwnedArray<PluginDescription> types;
+
+   jassert(File(pathToBundle).existsAsFile());
+
+   bool foundTypes = list.scanAndAddFile(pathToBundle, false, types, format);
    
-   list.scanAndAddFile(pathToBundle, false, types, format);
-   
+   if (!foundTypes)
+   {
+      DBG("ERROR: not types found in file: " + pathToBundle);
+      jassertfalse;
+   }
+
    juce::PluginDescription desc;
    
    DBG("***** ENUMERATING TYPES");
@@ -89,7 +97,11 @@ int main (int argc, char* argv[])
    
    if ( path.isEmpty() )
    {
+#ifdef JUCE_MAC
       path = "/Library/Audio/Plug-Ins/VST3/WaveShell1-VST3 13.0.vst3";
+#else
+      path = "C:\\Program Files\\Common Files\\VST3\\WaveShell1-VST3 13.0_x64.vst3";
+#endif
    }
    if (pluginName.isEmpty() )
    {
